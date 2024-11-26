@@ -1,0 +1,114 @@
+- hosts: all
+  # 管理者権限を利用
+  become: true
+  tasks:
+    # aptパッケージリストの更新タスク
+    - name: Update APT cache
+      # アップデート
+      apt:
+        update_cache: yes
+    # pip3のインストールタスク
+    - name: Install Python3-pip
+      # インストール
+      apt:
+        name: python3-pip
+        # 存在しない場合に実施
+        state: present
+    # pythonライブラリのインストールタスク
+    - name: Install python library
+      pip:
+        name: 
+        - awscli
+        - bs4 
+        - boto3 
+        - openai 
+        - prophet
+        - requests
+        - yfinance
+    # Node.jsとnpmのインストールタスク
+    - name: Install Node.js and npm
+      # インストール
+      apt:
+        name: nodejs
+        # 存在しない場合に実施
+        state: present
+    # RustとCargoのインストールタスク
+    - name: Install Rust and Cargo
+      # インストール
+      shell: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      # ~/.cargoディレクトリが存在する場合は、スキップ
+      args:
+        creates: ~/.cargo
+    # Terraformの依存パッケージのインストールタスク
+    - name: Install dependencies for installing Terraform
+      # 依存パッケージのインストール
+      apt:
+        name: software-properties-common
+        # 存在しない場合に実施
+        state: present
+    # GPGキーの追加タスク
+    - name: Add HashiCorp GPG key
+      # GPGキーの追加
+      apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
+        # 存在しない場合に実施
+        state: present
+    # リポジトリの追加タスク
+    - name: Add HashiCorp repo
+      # リポジトリの追加
+      apt_repository:
+        repo: deb [arch=amd64] https://apt.releases.hashicorp.com focal main
+        # 存在しない場合に実施
+        state: present
+    # Terraformのインストールタスク
+    - name: Install Terraform
+      # インストール
+      apt:
+        name: terraform
+        # 存在しない場合に実施
+        state: present
+    # Heroku CLIのインストールタスク
+    - name: Install Heroku CLI
+      shell: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+    # Dockerのインストールタスク
+    - name: Install Docker
+      apt:
+        name: docker.io
+        # 存在しない場合に実施
+        state: present
+    # docker-composeのインストールタスク
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        # 存在しない場合に実施
+        state: present
+    # トラブルシュートツールのインストールタスク
+    - name: Install troubleshooting tools
+      # インストール
+      apt:
+        name:
+        - sysstat
+        - net-tools
+        - traceroute
+        - network-manager
+        - tcpdump
+        - iperf3
+        - mtr
+        - iftop
+        - nmap
+        - htop
+        - dstat
+        - glances
+        - iotop
+        - ncdu
+        - smartmontools
+        - parted
+        - curl
+        - wget
+        - strace
+        - lsof
+        - whois
+        - dnsutils
+        - procps
+        # 存在しない場合に実施
+        state: present

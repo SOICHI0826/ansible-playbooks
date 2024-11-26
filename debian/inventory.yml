@@ -1,0 +1,6 @@
+all:
+  hosts:
+    alan:
+      ansible_host: 192.168.3.101
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/id_rsa_dev
